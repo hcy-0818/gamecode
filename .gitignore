@@ -1,0 +1,47 @@
+# =====================
+# Maven Build
+# =====================
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# =====================
+# Nacos Server (470MB, download separately)
+# =====================
+nacos/
+
+# =====================
+# IDE
+# =====================
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.swp
+*.swo
+*~
+
+# =====================
+# OS
+# =====================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =====================
+# Uploads & Logs
+# =====================
+**/uploads/
+logs/
+*.log
+*.bak
+
+# =====================
+# Config & Secrets
+# =====================
+application-local.yml
+application-*.yml.bak
+*.msi
+*.txt
+快速启动指南.md

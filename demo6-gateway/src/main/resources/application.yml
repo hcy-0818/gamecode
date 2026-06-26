@@ -1,0 +1,64 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo6-gateway
+  config:
+    import: optional:nacos:${spring.application.name}.yaml
+  cloud:
+    bootstrap:
+      enabled: true
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:}
+      config:
+        import-check:
+          enabled: false
+        server-addr: ${NACOS_SERVER:localhost:8848}
+        namespace: ${NACOS_NAMESPACE:}
+        file-extension: yaml
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
+        - id: admin-user
+          uri: lb://user-service
+          predicates:
+            - Path=/api/admin/users/**
+        - id: admin-auth
+          uri: lb://user-service
+          predicates:
+            - Path=/api/admin/login,/api/admin/logout
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/api/account/**,/api/registration/**
+        - id: admin-account
+          uri: lb://account-service
+          predicates:
+            - Path=/api/admin/registrations,/api/admin/registrations/**,/api/admin/approve/**,/api/admin/reject/**,/api/admin/registration/**,/api/admin/account/**
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/order/**
+        - id: admin-order
+          uri: lb://order-service
+          predicates:
+            - Path=/api/admin/orders,/api/admin/orders/**,/api/admin/order/**
+        - id: bargain-service
+          uri: lb://bargain-service
+          predicates:
+            - Path=/api/bargain/**
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+jwt:
+  secret: ${JWT_SECRET:demo6-cloud-jwt-secret-key-2024-microservice}
+  expiration: 1800000

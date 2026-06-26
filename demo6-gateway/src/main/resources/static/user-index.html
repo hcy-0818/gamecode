@@ -1,0 +1,2512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>游戏账号交易平台 - 首页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0a0a14;
+            --bg-secondary: #0f0f23;
+            --bg-card: rgba(18, 18, 42, 0.8);
+            --accent: #6c5ce7;
+            --accent-glow: #a78bfa;
+            --neon-blue: #00d4ff;
+            --neon-purple: #b44dff;
+            --neon-pink: #ff2d95;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8b8ba0;
+            --border: rgba(108, 92, 231, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(108, 92, 231, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108, 92, 231, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse 60% 50% at 20% 30%, rgba(108,92,231,0.1) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 60% at 80% 70%, rgba(0,212,255,0.06) 0%, transparent 70%);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 20, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-blue), var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            background: rgba(108, 92, 231, 0.15);
+            color: var(--text-primary);
+        }
+
+        .nav-link.active {
+            color: var(--accent-glow);
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.2);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-info:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--neon-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .content {
+            margin-top: 70px;
+            padding: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .filter-chip {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-weight: 500;
+        }
+
+        .filter-chip:hover {
+            border-color: rgba(108, 92, 231, 0.4);
+            color: var(--text-primary);
+        }
+
+        .filter-chip.active {
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.3), rgba(0, 212, 255, 0.1));
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .account-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .account-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .account-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(108, 92, 231, 0.15);
+        }
+
+        .card-banner {
+            height: 140px;
+            position: relative;
+            background: linear-gradient(135deg, var(--accent), var(--neon-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-banner .game-icon {
+            font-size: 56px;
+            opacity: 0.3;
+            color: #fff;
+        }
+        .card-banner .card-banner-image {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.7;
+        }
+        .account-card:hover .card-banner .card-banner-image {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        .card-banner .card-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(0, 200, 100, 0.2);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .game-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .card-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            margin-bottom: 14px;
+        }
+
+        .card-price .unit {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .card-tag {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--accent-glow);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-primary {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--accent), var(--neon-blue));
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn-outline {
+            padding: 10px 24px;
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            color: var(--accent-glow);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            opacity: 0.2;
+            margin-bottom: 16px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 24px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.2);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.2);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .form-checkbox input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
+        .form-checkbox label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            background: var(--bg-card);
+            flex-shrink: 0;
+        }
+
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .order-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-info {
+            flex: 1;
+        }
+
+        .order-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .order-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .order-status {
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .order-status.pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .order-status.cancelled {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+
+        .order-status.completed {
+            background: rgba(0, 230, 118, 0.15);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 12px;
+        }
+
+        .btn-danger {
+            background: rgba(255, 82, 82, 0.2);
+            border: 1px solid rgba(255, 82, 82, 0.3);
+            color: #ff5252;
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 82, 82, 0.3);
+        }
+
+        /* 详情页图片展示 */
+        .detail-images-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+        .detail-image-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .detail-image-item:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+        .detail-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 图片查看器 */
+        .image-viewer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        .image-viewer-overlay.active {
+            display: flex;
+        }
+        .image-viewer-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            cursor: default;
+        }
+        .image-viewer-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .image-viewer-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .image-viewer-nav:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .image-viewer-nav.prev {
+            left: -60px;
+        }
+        .image-viewer-nav.next {
+            right: -60px;
+        }
+        .image-viewer-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .image-viewer-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .image-viewer-indicator {
+            position: absolute;
+            bottom: -35px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+
+        /* 图片上传样式 */
+        .image-upload-container {
+            margin-bottom: 12px;
+        }
+        .image-upload-box {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.02);
+        }
+        .image-upload-box:hover {
+            border-color: var(--accent);
+            background: rgba(108,92,231,0.08);
+        }
+        .image-upload-box i {
+            font-size: 32px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .image-upload-box span {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .image-preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .image-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .image-preview-item:hover .remove-btn {
+            opacity: 1;
+        }
+
+        .my-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .my-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .my-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(108, 92, 231, 0.15);
+        }
+
+        .my-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.2), rgba(0, 212, 255, 0.1));
+        }
+
+        .my-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .my-card-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 300;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #00c853, #00e676);
+        }
+
+        .toast.warning {
+            background: linear-gradient(135deg, #ff9800, #ffc107);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #f44336, #ff5252);
+        }
+
+        .bargain-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--neon-pink);
+            margin-top: 8px;
+        }
+
+        /* 个人资料相关样式 */
+        .btn-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-close:hover { color: var(--text-primary); }
+        
+        .profile-container {
+            margin-top: 16px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        .avatar-section {
+            display: flex; flex-direction: column; align-items: center; margin-bottom: 24px;
+        }
+        .avatar-preview {
+            width: 120px; height: 120px; border-radius: 50%;
+            overflow: hidden; border: 3px solid var(--accent);
+            box-shadow: 0 0 20px rgba(108,92,231,0.3);
+            margin-bottom: 12px;
+        }
+        .avatar-preview img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .avatar-upload-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--neon-purple));
+            border-radius: 50%; cursor: pointer;
+            color: #fff; font-size: 16px;
+            transition: all 0.3s; box-shadow: 0 4px 16px rgba(108,92,231,0.4);
+        }
+        .avatar-upload-btn:hover {
+            transform: scale(1.1); box-shadow: 0 6px 24px rgba(108,92,231,0.6);
+        }
+        .avatar-upload-btn input { display: none; }
+        
+        .password-section {
+            margin-top: 24px; padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .btn-warning {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s; letter-spacing: 0.5px;
+            box-shadow: 0 4px 24px rgba(255,152,0,0.3);
+        }
+        .btn-warning:hover { transform: translateY(-1px); box-shadow: 0 6px 32px rgba(255,152,0,0.5); }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <div class="logo-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="logo-text">GAME VAULT</div>
+        </div>
+
+        <div class="nav-links">
+            <div class="nav-link active" onclick="navigateTo('home')">
+                <i class="fas fa-home"></i> 首页
+            </div>
+            <div class="nav-link" onclick="navigateTo('orders')">
+                <i class="fas fa-shopping-cart"></i> 订单
+            </div>
+            <div class="nav-link" onclick="navigateTo('my')">
+                <i class="fas fa-user"></i> 我的
+            </div>
+        </div>
+
+        <div class="nav-user">
+            <div class="user-info" onclick="toggleUserMenu()">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span class="user-name" id="userName">用户</span>
+                <i class="fas fa-chevron-down" style="font-size:12px;color:var(--text-secondary);"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <!-- 首页 -->
+        <div id="page-home" class="page-section active">
+            <div class="section-header">
+                <h2 class="section-title">在售账号</h2>
+            </div>
+            <div class="filter-bar" id="homeFilter">
+                <div class="filter-chip active" onclick="setHomeFilter('all')">全部</div>
+                <div class="filter-chip" onclick="setHomeFilter('genshin')">原神</div>
+                <div class="filter-chip" onclick="setHomeFilter('lol')">英雄联盟</div>
+                <div class="filter-chip" onclick="setHomeFilter('honkai')">崩坏星穹铁道</div>
+                <div class="filter-chip" onclick="setHomeFilter('wzry')">王者荣耀</div>
+            </div>
+            <div class="account-grid" id="accountGrid"></div>
+        </div>
+
+        <!-- 订单 -->
+        <div id="page-orders" class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">我的订单</h2>
+            </div>
+            <div class="filter-bar">
+                <div class="filter-chip active" onclick="setOrderFilter('all')">全部</div>
+                <div class="filter-chip" onclick="setOrderFilter('pending')">待付款</div>
+                <div class="filter-chip" onclick="setOrderFilter('cancelled')">已取消</div>
+            </div>
+            <div class="order-list" id="orderList"></div>
+        </div>
+
+        <!-- 我的 -->
+        <div id="page-my" class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">个人中心</h2>
+            </div>
+            <div class="my-section">
+                <div class="my-card" onclick="navigateTo('my-sales')">
+                    <div class="my-card-icon"><i class="fas fa-store"></i></div>
+                    <div class="my-card-title">我的出售</div>
+                    <div class="my-card-desc">查看和管理我出售的账号</div>
+                </div>
+                <div class="my-card" onclick="navigateTo('my-registrations')">
+                    <div class="my-card-icon"><i class="fas fa-file-upload"></i></div>
+                    <div class="my-card-title">我的登记</div>
+                    <div class="my-card-desc">登记新账号或管理登记记录</div>
+                </div>
+                <div class="my-card" onclick="navigateTo('my-bargains')">
+                    <div class="my-card-icon"><i class="fas fa-comments"></i></div>
+                    <div class="my-card-title">我的还价</div>
+                    <div class="my-card-desc">查看和处理还价消息</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 我的出售 -->
+        <div id="page-my-sales" class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">我的出售</h2>
+                <button class="btn-outline" onclick="navigateTo('my')">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </button>
+            </div>
+            <div class="filter-bar">
+                <div class="filter-chip active" onclick="setSalesFilter('listed')">上架中</div>
+                <div class="filter-chip" onclick="setSalesFilter('sold')">已出售</div>
+                <div class="filter-chip" onclick="setSalesFilter('retrieved')">已取回</div>
+            </div>
+            <div class="account-grid" id="mySalesGrid"></div>
+        </div>
+
+        <!-- 我的登记 -->
+        <div id="page-my-registrations" class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">我的登记</h2>
+                <button class="btn-primary" onclick="openRegisterModal()">
+                    <i class="fas fa-plus"></i> 我要登记
+                </button>
+            </div>
+            <div class="filter-bar">
+                <div class="filter-chip active" onclick="setRegFilter('all')">全部</div>
+                <div class="filter-chip" onclick="setRegFilter('pending')">待审批</div>
+                <div class="filter-chip" onclick="setRegFilter('approved')">已通过</div>
+                <div class="filter-chip" onclick="setRegFilter('rejected')">已驳回</div>
+            </div>
+            <div class="order-list" id="myRegList"></div>
+        </div>
+
+        <!-- 我的还价 -->
+        <div id="page-my-bargains" class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">我的还价</h2>
+                <button class="btn-outline" onclick="navigateTo('my')">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </button>
+            </div>
+            <div class="order-list" id="myBargainList"></div>
+        </div>
+    </div>
+
+    <!-- 图片查看器 -->
+    <div class="image-viewer-overlay" id="imageViewer" onclick="closeImageViewer()">
+        <div class="image-viewer-content" onclick="event.stopPropagation()">
+            <button class="image-viewer-close" onclick="closeImageViewer()">&times;</button>
+            <button class="image-viewer-nav prev" id="viewerPrev" onclick="prevImage()">&#8249;</button>
+            <img id="viewerImage" src="" />
+            <button class="image-viewer-nav next" id="viewerNext" onclick="nextImage()">&#8250;</button>
+            <div class="image-viewer-indicator" id="viewerIndicator"></div>
+        </div>
+    </div>
+
+    <!-- 账号详情弹窗 -->
+    <div class="modal-overlay" id="detailModal" onclick="closeDetailModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title" id="detailTitle">账号详情</div>
+                <button class="modal-close" onclick="closeDetailModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeDetailModal()">关闭</button>
+                <button class="btn-primary" id="buyBtn" style="display:none;">立即购买</button>
+                <button class="btn-outline" id="bargainBtn" style="display:none;">发起还价</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登记弹窗 -->
+    <div class="modal-overlay" id="registerModal" onclick="closeRegisterModal()">
+        <div class="modal" onclick="event.stopPropagation()" style="max-width: 550px;">
+            <div class="modal-header">
+                <div class="modal-title">登记新账号</div>
+                <button class="modal-close" onclick="closeRegisterModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label class="form-label">游戏名称</label>
+                        <select class="form-input" id="regGame" required>
+                            <option value="">请选择游戏</option>
+                            <option value="英雄联盟">英雄联盟 (LOL)</option>
+                            <option value="原神">原神 (Genshin Impact)</option>
+                            <option value="瓦罗兰特">瓦罗兰特 (VALORANT)</option>
+                            <option value="CS2">CS2</option>
+                            <option value="永劫无间">永劫无间</option>
+                            <option value="Apex英雄">Apex 英雄</option>
+                            <option value="绝地求生">绝地求生 (PUBG)</option>
+                            <option value="Steam合集">Steam 合集</option>
+                            <option value="崩坏星穹铁道">崩坏星穹铁道</option>
+                            <option value="王者荣耀">王者荣耀</option>
+                            <option value="和平精英">和平精英</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">服务器/区服</label>
+                            <input type="text" class="form-input" id="regServer" placeholder="如：艾欧尼亚" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">段位/等级</label>
+                            <input type="text" class="form-input" id="regLevel" placeholder="如：钻石I" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">售价 (¥)</label>
+                            <input type="number" class="form-input" id="regPrice" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">皮肤/角色数量</label>
+                            <input type="number" class="form-input" id="regSkins" placeholder="如：200" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">账号描述</label>
+                        <textarea class="form-input" id="regDesc" placeholder="描述账号详情..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">账号截图（可上传多张）</label>
+                        <div id="regImageUpload" class="image-upload-container">
+                            <div class="image-upload-box" onclick="document.getElementById('regImageFile').click()">
+                                <i class="fas fa-plus"></i>
+                                <span>点击上传图片</span>
+                            </div>
+                            <input type="file" id="regImageFile" accept="image/*" multiple style="display:none;" onchange="handleRegImageSelect(event)">
+                        </div>
+                        <div id="regImagePreview" class="image-preview-container"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="regBargain" value="1">
+                            <label for="regBargain">允许还价（买家可发起还价，最低不低于原价80%）</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" onclick="closeRegisterModal()">取消</button>
+                <button type="submit" form="registerForm" class="btn-primary">提交登记</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 还价弹窗 -->
+    <div class="modal-overlay" id="bargainModal" onclick="closeBargainModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">发起还价</div>
+                <button class="modal-close" onclick="closeBargainModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="bargainForm" onsubmit="handleBargain(event)">
+                <div class="modal-body">
+                    <div id="bargainAccountInfo" style="padding:16px;background:rgba(108,92,231,0.1);border-radius:10px;margin-bottom:16px;"></div>
+                    <div class="form-group">
+                        <label class="form-label">还价金额 (¥)</label>
+                        <input type="number" class="form-input" id="bargainPrice" placeholder="请输入还价金额" step="0.1" required>
+                        <div style="font-size:12px;color:var(--text-secondary);margin-top:6px;" id="bargainHint"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline" onclick="closeBargainModal()">取消</button>
+                    <button type="submit" class="btn-primary">提交还价</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 用户菜单 -->
+    <div class="modal-overlay" id="userMenuOverlay" style="display:none;" onclick="closeUserMenu()">
+        <div style="position:absolute;top:80px;right:32px;width:200px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;" onclick="event.stopPropagation()">
+            <div style="padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;" onclick="openProfile();closeUserMenu()">
+                <i class="fas fa-user"></i> 个人资料
+            </div>
+            <div style="padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;color:#ff5252;" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i> 退出登录
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- 个人资料弹窗 -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal" style="position:relative;max-width:500px;">
+            <button class="btn-close" onclick="closeProfileModal()">&times;</button>
+            <h3><i class="fas fa-user-circle" style="color:var(--neon-blue);margin-right:8px;"></i>个人资料</h3>
+            
+            <div class="profile-container">
+                <div class="avatar-section">
+                    <div class="avatar-preview" id="avatarPreview">
+                        <img id="avatarImg" src="/static/images/default-avatar.png" alt="头像">
+                    </div>
+                    <label class="avatar-upload-btn">
+                        <i class="fas fa-camera"></i>
+                        <input type="file" id="avatarFile" accept="image/*" onchange="handleAvatarUpload(this)">
+                    </label>
+                </div>
+                
+                <form id="profileForm" onsubmit="handleProfileSubmit(event)">
+                    <div class="form-group">
+                        <label>用户名</label>
+                        <input type="text" id="profileUsername" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>手机号</label>
+                            <input type="tel" id="profilePhone" placeholder="选填">
+                        </div>
+                        <div class="form-group">
+                            <label>邮箱</label>
+                            <input type="email" id="profileEmail" placeholder="选填">
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:12px;margin-top:16px;">
+                        <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeProfileModal()">
+                            <i class="fas fa-arrow-left"></i> 返回
+                        </button>
+                        <button type="submit" class="btn btn-primary" style="flex:1;">
+                            <i class="fas fa-save"></i> 保存资料
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="password-section">
+                    <h4 style="margin-top:20px;margin-bottom:12px;color:var(--text-primary);">修改密码</h4>
+                    <form id="passwordForm" onsubmit="handlePasswordSubmit(event)">
+                        <div class="form-group">
+                            <label>原密码</label>
+                            <input type="password" id="oldPassword" required placeholder="请输入原密码">
+                        </div>
+                        <div class="form-group">
+                            <label>新密码</label>
+                            <input type="password" id="newPassword" required placeholder="请输入新密码（至少6位）">
+                        </div>
+                        <div class="form-group">
+                            <label>确认密码</label>
+                            <input type="password" id="confirmPassword" required placeholder="请再次输入新密码">
+                        </div>
+                        <button type="submit" class="btn btn-warning" style="width:100%;margin-top:16px;">
+                            <i class="fas fa-lock"></i> 修改密码
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JWT Token 自动注入
+        (function() {
+            const _fetch = window.fetch;
+            window.fetch = function(url, opts) {
+                opts = opts || {};
+                const token = localStorage.getItem('jwt_token');
+                if (token) {
+                    if (opts.headers instanceof Headers) {
+                        opts.headers.set('Authorization', 'Bearer ' + token);
+                    } else if (typeof opts.headers === 'object' && opts.headers !== null) {
+                        opts.headers['Authorization'] = 'Bearer ' + token;
+                    } else {
+                        opts.headers = { 'Authorization': 'Bearer ' + token };
+                    }
+                }
+                return _fetch.call(window, url, opts);
+            };
+        })();
+
+        let currentPage = 'home';
+        let homeFilter = 'all';
+        let orderFilter = 'all';
+        let salesFilter = 'listed';
+        let regFilter = 'all';
+        let selectedAccount = null;
+
+        function navigateTo(page) {
+            currentPage = page;
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+
+            const mainPages = ['home', 'orders', 'my'];
+            if (mainPages.includes(page)) {
+                const navLink = document.querySelector(`.nav-link[onclick="navigateTo('${page}')"]`);
+                if (navLink) navLink.classList.add('active');
+            } else {
+                const myNavLink = document.querySelector(`.nav-link[onclick="navigateTo('my')"]`);
+                if (myNavLink) myNavLink.classList.add('active');
+            }
+            
+            document.getElementById('page-' + page).classList.add('active');
+
+            if (page === 'home') loadHomeAccounts();
+            if (page === 'orders') loadOrders();
+            if (page === 'my') loadMySales();
+            if (page === 'my-sales') loadMySales();
+            if (page === 'my-registrations') loadMyRegistrations();
+            if (page === 'my-bargains') loadMyBargains();
+        }
+
+        function toggleUserMenu() {
+            const overlay = document.getElementById('userMenuOverlay');
+            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function closeUserMenu() {
+            document.getElementById('userMenuOverlay').style.display = 'none';
+        }
+
+        function openProfile() {
+            document.getElementById('profileModal').classList.add('active');
+            loadUserProfile();
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.remove('active');
+        }
+
+        async function loadUserProfile() {
+            try {
+                const res = await fetch('/api/user/profile', { credentials: 'include' });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+                
+                const user = d.data;
+                document.getElementById('profileUsername').value = user.username || '';
+                document.getElementById('profilePhone').value = user.phone || '';
+                document.getElementById('profileEmail').value = user.email || '';
+                
+                const avatarUrl = user.avatar || '/static/images/default-avatar.png';
+                document.getElementById('avatarImg').src = avatarUrl;
+            } catch (e) {
+                showToast('加载资料失败：' + e.message, 'error');
+            }
+        }
+
+        async function handleAvatarUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const res = await fetch('/api/user/avatar', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+                
+                document.getElementById('avatarImg').src = d.data;
+                showToast('头像上传成功', 'success');
+            } catch (e) {
+                showToast('上传失败：' + e.message, 'error');
+                input.value = '';
+            }
+        }
+
+        async function handleProfileSubmit(e) {
+            e.preventDefault();
+
+            const data = {
+                username: document.getElementById('profileUsername').value,
+                phone: document.getElementById('profilePhone').value,
+                email: document.getElementById('profileEmail').value
+            };
+
+            try {
+                const res = await fetch('/api/user/profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('资料保存成功', 'success');
+                closeProfileModal();
+            } catch (e) {
+                showToast('保存失败：' + e.message, 'error');
+            }
+        }
+
+        async function handlePasswordSubmit(e) {
+            e.preventDefault();
+
+            const oldPassword = document.getElementById('oldPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;   
+
+            if (newPassword !== confirmPassword) {
+                showToast('两次输入的密码不一致', 'warning');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showToast('密码长度不能少于6位', 'warning');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/user/change-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ oldPassword, newPassword, confirmPassword }),
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('密码修改成功', 'success');
+                document.getElementById('passwordForm').reset();
+            } catch (e) {
+                showToast('修改失败：' + e.message, 'error');
+            }
+        }
+
+        function setHomeFilter(filter) {
+            homeFilter = filter;
+            document.querySelectorAll('#homeFilter .filter-chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            loadHomeAccounts();
+        }
+
+        function setOrderFilter(filter) {
+            orderFilter = filter;
+            document.querySelectorAll('.filter-bar .filter-chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            loadOrders();
+        }
+
+        function setSalesFilter(filter) {
+            salesFilter = filter;
+            document.querySelectorAll('.filter-bar .filter-chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            loadMySales();
+        }
+
+        function setRegFilter(filter) {
+            regFilter = filter;
+            document.querySelectorAll('.filter-bar .filter-chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            loadMyRegistrations();
+        }
+
+        async function loadHomeAccounts() {
+            const container = document.getElementById('accountGrid');
+            container.innerHTML = '<div style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin" style="font-size:32px;"></i></div>';
+
+            try {
+                const res = await fetch('/api/account/list', { credentials: 'include' });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+                
+                let accounts = d.data || [];
+                accounts = accounts.filter(a => a.status === 'LISTED');
+
+                if (homeFilter !== 'all') {
+                    const filterMap = {
+                        'genshin': '原神',
+                        'lol': '英雄联盟',
+                        'honkai': '崩坏星穹铁道',
+                        'wzry': '王者荣耀'
+                    };
+                    accounts = accounts.filter(a => a.gameName.includes(filterMap[homeFilter]));
+                }
+
+                if (accounts.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><p>暂无在售账号</p></div>';
+                    return;
+                }
+
+                container.innerHTML = accounts.map(renderAccountCard).join('');
+            } catch (e) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>加载失败：${e.message}</p></div>`;
+            }
+        }
+
+        function renderAccountCard(a) {
+            // 获取第一张图片
+            const images = (a.images || '').split(',').filter(img => img.trim());
+            const firstImage = images.length > 0 ? images[0] : '';
+            
+            return `
+                <div class="account-card" onclick="showAccountDetail(${a.id})">
+                    <div class="card-banner">
+                        ${firstImage ? `<img class="card-banner-image" src="${firstImage}" alt="账号截图" />` : `<i class="game-icon fas fa-gamepad"></i>`}
+                        <span class="card-status">在售</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="game-title">${escapeHtml(a.gameName)}</div>
+                        <div class="game-meta">
+                            <span>等级：${escapeHtml(a.accountLevel)}</span>
+                            <span style="margin:0 8px;">|</span>
+                            <span>服务器：${escapeHtml(a.server || '未知')}</span>
+                        </div>
+                        <div class="card-price"><span class="unit">¥</span>${(a.price || 0).toLocaleString()}</div>
+                        <div class="card-tags">
+                            <span class="card-tag">${escapeHtml(a.gameName)}</span>
+                        </div>
+                        ${a.allowBargain ? '<div class="bargain-info"><i class="fas fa-percent"></i> 支持还价</div>' : ''}
+                        <div class="card-footer">
+                            <span style="color:var(--text-secondary);font-size:12px;">${escapeHtml(a.description || '暂无描述').substring(0, 20)}...</span>
+                            <button class="btn-primary btn-sm" onclick="event.stopPropagation();showAccountDetail(${a.id})">查看</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function showAccountDetail(id) {
+            try {
+                const res = await fetch('/api/account/detail/' + id, { credentials: 'include' });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                selectedAccount = d.data.account;
+                const a = d.data.account;
+
+                // 处理图片
+                const images = (a.images || '').split(',').filter(img => img.trim());
+                const imagesHtml = images.length > 0 ? `
+                    <div style="margin-bottom:16px;">
+                        <span style="color:var(--text-secondary);font-size:13px;">账号截图</span>
+                        <div class="detail-images-container">
+                            ${images.map((img, index) => `
+                                <div class="detail-image-item" onclick="openImageViewer('${img}', ${index}, '${images.join('||')}')">
+                                    <img src="${img}" alt="截图${index + 1}" />
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : '';
+
+                document.getElementById('detailTitle').textContent = a.gameName;
+                document.getElementById('detailBody').innerHTML = `
+                    ${imagesHtml}
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                        <div><span style="color:var(--text-secondary);font-size:13px;">等级</span><div style="font-weight:600;">${escapeHtml(a.accountLevel)}</div></div>
+                        <div><span style="color:var(--text-secondary);font-size:13px;">服务器</span><div style="font-weight:600;">${escapeHtml(a.server || '未知')}</div></div>
+                        <div><span style="color:var(--text-secondary);font-size:13px;">售价</span><div style="font-weight:600;color:var(--neon-blue);">¥${(a.price || 0).toLocaleString()}</div></div>
+                        <div><span style="color:var(--text-secondary);font-size:13px;">原价</span><div style="font-weight:600;">¥${(a.originalPrice || 0).toLocaleString()}</div></div>
+                    </div>
+                    <div><span style="color:var(--text-secondary);font-size:13px;">描述</span><div style="margin-top:8px;">${escapeHtml(a.description || '暂无描述')}</div></div>
+                    ${a.allowBargain ? '<div style="margin-top:12px;padding:12px;background:rgba(180,77,255,0.1);border-radius:8px;"><i class="fas fa-percent" style="color:var(--neon-pink);margin-right:8px;"></i>支持还价，最低不低于原价的80%</div>' : ''}
+                `;
+
+                // 检查是否是自己的账号，如果是则隐藏购买和还价按钮
+                const isOwnAccount = currentUser && a.sellerId && currentUser.id === a.sellerId;
+                
+                if (isOwnAccount) {
+                    document.getElementById('buyBtn').style.display = 'none';
+                    document.getElementById('bargainBtn').style.display = 'none';
+                } else {
+                    document.getElementById('buyBtn').style.display = 'block';
+                    document.getElementById('bargainBtn').style.display = a.allowBargain ? 'block' : 'none';
+                }
+                
+                document.getElementById('detailModal').classList.add('active');
+            } catch (e) {
+                showToast('获取详情失败：' + e.message, 'error');
+            }
+        }
+
+        async function showMyRegistrationDetail(id) {
+            try {
+                const res = await fetch('/api/registration/detail/' + id, { credentials: 'include' });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                const r = d.data;
+                const statusText = {
+                    'PENDING': '待审批',
+                    'APPROVED': '已通过',
+                    'REJECTED': '已驳回',
+                    'CANCELLED': '已取消'
+                }[r.status] || r.status;
+
+                // 处理图片
+                const images = (r.images || '').split(',').filter(img => img.trim());
+                const imagesHtml = images.length > 0 ? `
+                    <div style="margin-bottom:16px;">
+                        <span style="color:var(--text-secondary);font-size:13px;">账号截图</span>
+                        <div class="detail-images-container">
+                            ${images.map((img, index) => `
+                                <div class="detail-image-item" onclick="openImageViewer('${img}', ${index}, '${images.join('||')}')">
+                                    <img src="${img}" alt="截图${index + 1}" />
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : '';
+
+                document.getElementById('detailTitle').textContent = r.gameName;
+                document.getElementById('detailBody').innerHTML = `
+                    ${imagesHtml}
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                        <div><span style="color:var(--text-secondary);font-size:13px;">等级</span><div style="font-weight:600;">${escapeHtml(r.accountLevel)}</div></div>
+                        <div><span style="color:var(--text-secondary);font-size:13px;">服务器</span><div style="font-weight:600;">${escapeHtml(r.server || '未知')}</div></div>
+                        <div><span style="color:var(--text-secondary);font-size:13px;">售价</span><div style="font-weight:600;color:var(--neon-blue);">¥${(r.price || 0).toLocaleString()}</div></div>
+                        <div><span style="color:var(--text-secondary);font-size:13px;">原价</span><div style="font-weight:600;">¥${(r.originalPrice || 0).toLocaleString()}</div></div>
+                        <div><span style="color:var(--text-secondary);font-size:13px;">皮肤数量</span><div style="font-weight:600;">${r.skinCount || 0}</div></div>
+                        <div><span style="color:var(--text-secondary);font-size:13px;">状态</span><div style="font-weight:600;">${statusText}</div></div>
+                    </div>
+                    <div><span style="color:var(--text-secondary);font-size:13px;">描述</span><div style="margin-top:8px;">${escapeHtml(r.description || '暂无描述')}</div></div>
+                    ${r.allowBargain ? '<div style="margin-top:12px;padding:12px;background:rgba(180,77,255,0.1);border-radius:8px;"><i class="fas fa-percent" style="color:var(--neon-pink);margin-right:8px;"></i>支持还价</div>' : ''}
+                `;
+
+                // 隐藏购买和还价按钮（登记中不能购买）
+                document.getElementById('buyBtn').style.display = 'none';
+                document.getElementById('bargainBtn').style.display = 'none';
+
+                document.getElementById('detailModal').classList.add('active');
+            } catch (e) {
+                showToast('获取详情失败：' + e.message, 'error');
+            }
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
+            // 恢复按钮显示状态
+            document.getElementById('buyBtn').style.display = '';
+            document.getElementById('bargainBtn').style.display = '';
+        }
+
+        function openRegisterModal() {
+            document.getElementById('registerForm').reset();
+            document.getElementById('registerModal').classList.add('active');
+        }
+
+        // 图片查看器变量
+        let viewerImages = [];
+        let currentIndex = 0;
+
+        function openImageViewer(src, index, imagesStr) {
+            viewerImages = imagesStr.split('||');
+            currentIndex = index;
+            document.getElementById('viewerImage').src = src;
+            document.getElementById('viewerIndicator').textContent = `${index + 1} / ${viewerImages.length}`;
+            document.getElementById('imageViewer').classList.add('active');
+            document.getElementById('viewerPrev').style.display = index === 0 ? 'none' : 'flex';
+            document.getElementById('viewerNext').style.display = index === viewerImages.length - 1 ? 'none' : 'flex';
+        }
+
+        function closeImageViewer() {
+            document.getElementById('imageViewer').classList.remove('active');
+        }
+
+        function prevImage() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                document.getElementById('viewerImage').src = viewerImages[currentIndex];
+                document.getElementById('viewerIndicator').textContent = `${currentIndex + 1} / ${viewerImages.length}`;
+                document.getElementById('viewerPrev').style.display = currentIndex === 0 ? 'none' : 'flex';
+                document.getElementById('viewerNext').style.display = 'flex';
+            }
+        }
+
+        function nextImage() {
+            if (currentIndex < viewerImages.length - 1) {
+                currentIndex++;
+                document.getElementById('viewerImage').src = viewerImages[currentIndex];
+                document.getElementById('viewerIndicator').textContent = `${currentIndex + 1} / ${viewerImages.length}`;
+                document.getElementById('viewerNext').style.display = currentIndex === viewerImages.length - 1 ? 'none' : 'flex';
+                document.getElementById('viewerPrev').style.display = 'flex';
+            }
+        }
+
+        let registeredImages = [];
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.remove('active');
+            registeredImages = [];
+            document.getElementById('regImagePreview').innerHTML = '';
+        }
+
+        function handleRegImageSelect(e) {
+            const files = e.target.files;
+            if (!files || files.length === 0) return;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!file.type.startsWith('image/')) {
+                    showToast('请选择图片文件', 'warning');
+                    continue;
+                }
+
+                // 立即添加到数组，不需要等待预览加载
+                registeredImages.push(file);
+
+                // 异步生成预览（不影响提交）
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.createElement('div');
+                    preview.className = 'image-preview-item';
+                    const currentIndex = registeredImages.indexOf(file);
+                    preview.innerHTML = `
+                        <img src="${event.target.result}" />
+                        <button class="remove-btn" onclick="removeRegImage(${currentIndex})">&times;</button>
+                    `;
+                    document.getElementById('regImagePreview').appendChild(preview);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeRegImage(index) {
+            registeredImages.splice(index, 1);
+            const previewContainer = document.getElementById('regImagePreview');
+            previewContainer.removeChild(previewContainer.children[index]);
+            
+            // 更新剩余预览按钮的索引
+            const buttons = previewContainer.querySelectorAll('.remove-btn');
+            buttons.forEach((btn, i) => {
+                btn.setAttribute('onclick', `removeRegImage(${i})`);
+            });
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            const game = document.getElementById('regGame').value;
+            const server = document.getElementById('regServer').value.trim();
+            const level = document.getElementById('regLevel').value.trim();
+            const price = parseFloat(document.getElementById('regPrice').value);
+            const skins = parseInt(document.getElementById('regSkins').value) || 0;
+            const desc = document.getElementById('regDesc').value.trim();
+            const bargain = document.getElementById('regBargain').checked ? 1 : 0;
+
+            if (!game || !server || !level || !price) {
+                showToast('请填写完整信息', 'warning');
+                return;
+            }
+
+            try {
+                // 先上传图片
+                let images = [];
+                console.log('registeredImages length:', registeredImages.length);
+                console.log('registeredImages:', registeredImages);
+                if (registeredImages.length > 0) {
+                    const formData = new FormData();
+                    registeredImages.forEach((file, index) => {
+                        console.log('Adding file:', index, file.name);
+                        formData.append('files', file);
+                    });
+                    console.log('FormData entries:', [...formData.entries()]);
+
+                    const uploadRes = await fetch('/api/account/uploadImages', {
+                        method: 'POST',
+                        credentials: 'include',
+                        body: formData
+                    });
+                    const uploadResult = await uploadRes.json();
+                    if (uploadResult.code !== 200) {
+                        throw new Error(uploadResult.message);
+                    }
+                    images = uploadResult.data;
+                }
+
+                const res = await fetch('/api/registration/submit', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        gameName: game,
+                        server: server,
+                        accountLevel: level,
+                        skinCount: skins,
+                        price: price,
+                        description: desc,
+                        allowBargain: bargain,
+                        images: images.join(',')
+                    })
+                });
+
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('登记提交成功，等待管理员审批', 'success');
+                closeRegisterModal();
+                navigateTo('my-registrations');
+            } catch (e) {
+                showToast('提交失败：' + e.message, 'error');
+            }
+        }
+
+        function openBargainModal() {
+            if (!selectedAccount) return;
+            
+            const minPrice = (selectedAccount.originalPrice * 0.8).toFixed(1);
+            const maxPrice = selectedAccount.originalPrice.toFixed(1);
+            document.getElementById('bargainAccountInfo').innerHTML = `
+                <div style="font-weight:600;">${escapeHtml(selectedAccount.gameName)}</div>
+                <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">当前价格：¥${(selectedAccount.price || 0).toLocaleString()}</div>
+            `;
+            document.getElementById('bargainHint').textContent = `还价范围：¥${minPrice} - ¥${maxPrice}（原价的80%-100%）`;
+            document.getElementById('bargainPrice').min = minPrice;
+            document.getElementById('bargainPrice').max = maxPrice;
+            document.getElementById('bargainPrice').value = '';
+            document.getElementById('bargainModal').classList.add('active');
+        }
+
+        function closeBargainModal() {
+            document.getElementById('bargainModal').classList.remove('active');
+        }
+
+        async function handleBargain(e) {
+            e.preventDefault();
+            
+            const priceInput = document.getElementById('bargainPrice');
+            const price = parseFloat(priceInput.value);
+            const originalPrice = selectedAccount.originalPrice;
+            const minPrice = originalPrice * 0.8;
+            
+            // 验证：还价金额必须在原价的 80%-100% 区间，最多一位小数
+            if (!price && price !== 0) {
+                showToast('请输入还价金额', 'warning');
+                return;
+            }
+            
+            // 检查是否最多一位小数
+            const priceStr = price.toFixed(1);
+            const parsedPrice = parseFloat(priceStr);
+            if (Math.abs(parsedPrice - price) > 0.0001) {
+                showToast('还价金额最多保留一位小数', 'warning');
+                priceInput.value = '';
+                return;
+            }
+            
+            // 验证价格区间（允许微小的浮点误差）
+            const adjustedMinPrice = parseFloat(minPrice.toFixed(1));
+            const adjustedMaxPrice = parseFloat(originalPrice.toFixed(1));
+            
+            if (price < adjustedMinPrice - 0.0001 || price > adjustedMaxPrice + 0.0001) {
+                showToast(`还价金额必须在¥${adjustedMinPrice.toFixed(1)}-¥${adjustedMaxPrice.toFixed(1)}之间`, 'warning');
+                priceInput.value = '';
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/bargain/create', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accountId: selectedAccount.id,
+                        price: parsedPrice
+                    })
+                });
+
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('还价已发送', 'success');
+                closeBargainModal();
+                closeDetailModal();
+            } catch (e) {
+                showToast('提交失败：' + e.message, 'error');
+            }
+        }
+
+        async function loadOrders() {
+            const container = document.getElementById('orderList');
+            container.innerHTML = '<div style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin" style="font-size:32px;"></i></div>';
+
+            try {
+                const res = await fetch('/api/order/myOrders', { credentials: 'include' });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                let orders = d.data || [];
+
+                if (orderFilter === 'pending') orders = orders.filter(o => o.status === 'PENDING_PAYMENT');
+                if (orderFilter === 'cancelled') orders = orders.filter(o => o.status === 'CANCELLED');
+
+                if (orders.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-shopping-cart"></i><p>暂无订单</p></div>';
+                    return;
+                }
+
+                container.innerHTML = orders.map(renderOrderItem).join('');
+            } catch (e) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>加载失败：${e.message}</p></div>`;
+            }
+        }
+
+        function renderOrderItem(o) {
+            const statusText = {
+                'PENDING_PAYMENT': '待付款',
+                'PAID': '已付款',
+                'COMPLETED': '已完成',
+                'CANCELLED': '已取消'
+            }[o.status] || o.status;
+
+            const statusClass = o.status === 'PENDING_PAYMENT' ? 'pending' : 
+                              o.status === 'CANCELLED' ? 'cancelled' : 'completed';
+
+            return `
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-title">${escapeHtml(o.gameName)}</div>
+                        <div class="order-meta">订单号：${o.id} | ¥${(o.price || 0).toLocaleString()}</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <span class="order-status ${statusClass}">${statusText}</span>
+                        ${o.status === 'PENDING_PAYMENT' ? `
+                            <button class="btn-sm btn-primary" onclick="payOrder(${o.id})">付款</button>
+                            <button class="btn-sm btn-danger" onclick="cancelOrder(${o.id})">取消</button>
+                        ` : ''}
+                        ${o.status === 'CANCELLED' || o.status === 'PAID' || o.status === 'COMPLETED' ? `<button class="btn-sm btn-outline" onclick="deleteOrder(${o.id})">删除</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function cancelOrder(id) {
+            if (!confirm('确定要取消此订单吗？')) return;
+
+            try {
+                const res = await fetch('/api/order/cancel/' + id, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('订单已取消', 'success');
+                loadOrders();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function payOrder(id) {
+            if (!confirm('确认付款？')) return;
+
+            try {
+                const res = await fetch('/api/order/pay/' + id, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('付款成功', 'success');
+                loadOrders();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function deleteOrder(id) {
+            if (!confirm('确定要删除此订单吗？')) return;
+
+            try {
+                const res = await fetch('/api/order/delete/' + id, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('订单已删除', 'success');
+                loadOrders();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function deleteBargain(id) {
+            if (!confirm('确定要删除此还价记录吗？')) return;
+
+            try {
+                const res = await fetch('/api/bargain/delete/' + id, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('还价记录已删除', 'success');
+                loadMyBargains();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function loadMySales() {
+            const container = document.getElementById('mySalesGrid');
+            container.innerHTML = '<div style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin" style="font-size:32px;"></i></div>';
+
+            try {
+                const res = await fetch('/api/account/mySales', { credentials: 'include' });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                let accounts = d.data || [];
+
+                if (salesFilter === 'listed') accounts = accounts.filter(a => a.status === 'LISTED');
+                if (salesFilter === 'sold') accounts = accounts.filter(a => a.status === 'SOLD');
+                if (salesFilter === 'retrieved') accounts = accounts.filter(a => a.status === 'RETRIEVED');
+
+                if (accounts.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-store"></i><p>暂无出售记录</p></div>';
+                    return;
+                }
+
+                container.innerHTML = accounts.map(renderMySaleCard).join('');
+            } catch (e) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>加载失败：${e.message}</p></div>`;
+            }
+        }
+
+        function renderMySaleCard(a) {
+            const statusText = a.status === 'LISTED' ? '在售' : a.status === 'SOLD' ? '已出售' : '已取回';
+            const statusClass = a.status === 'LISTED' ? 'pending' : a.status === 'SOLD' ? 'completed' : 'cancelled';
+            
+            // 获取第一张图片
+            const images = (a.images || '').split(',').filter(img => img.trim());
+            const firstImage = images.length > 0 ? images[0] : '';
+
+            return `
+                <div class="account-card" onclick="showAccountDetail(${a.id})">
+                    <div class="card-banner">
+                        ${firstImage ? `<img class="card-banner-image" src="${firstImage}" alt="账号截图" />` : `<i class="game-icon fas fa-gamepad"></i>`}
+                        <span class="card-status ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="game-title">${escapeHtml(a.gameName)}</div>
+                        <div class="game-meta">
+                            <span>等级：${escapeHtml(a.accountLevel)}</span>
+                            <span style="margin:0 8px;">|</span>
+                            <span>服务器：${escapeHtml(a.server || '未知')}</span>
+                        </div>
+                        <div class="card-price"><span class="unit">¥</span>${(a.price || 0).toLocaleString()}</div>
+                        <div class="card-tags">
+                            <span class="card-tag">${escapeHtml(a.gameName)}</span>
+                        </div>
+                        ${a.allowBargain ? '<div class="bargain-info"><i class="fas fa-percent"></i> 支持还价</div>' : ''}
+                        <div class="card-footer">
+                            <span style="color:var(--text-secondary);font-size:12px;">${escapeHtml(a.description || '暂无描述').substring(0, 20)}...</span>
+                            <div style="display:flex;gap:8px;margin-top:8px;">
+                                ${a.status === 'LISTED' ? `<button class="btn-outline btn-sm" onclick="event.stopPropagation();retrieveAccount(${a.id})">取回账号</button>` : ''}
+                                <button class="btn-danger btn-sm" onclick="event.stopPropagation();deleteAccount(${a.id})">删除账号</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        async function retrieveAccount(id) {
+            if (!confirm('确定要取回此账号吗？取回后将不再显示在售列表中。')) return;
+
+            try {
+                const res = await fetch('/api/account/retrieve/' + id, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('账号已取回', 'success');
+                loadMySales();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function deleteAccount(id) {
+            if (!confirm('确定要删除此账号吗？此操作将永久删除账号信息及相关的还价记录，无法恢复！')) return;
+
+            try {
+                const res = await fetch('/api/account/delete/' + id, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('账号已删除', 'success');
+                loadMySales();
+            } catch (e) {
+                showToast('删除失败：' + e.message, 'error');
+            }
+        }
+
+        async function loadMyRegistrations() {
+            const container = document.getElementById('myRegList');
+            container.innerHTML = '<div style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin" style="font-size:32px;"></i></div>';
+
+            try {
+                const [regRes, bargainRes] = await Promise.all([
+                    fetch('/api/registration/myRegistrations', { credentials: 'include' }),
+                    fetch('/api/bargain/receivedBargains', { credentials: 'include' })
+                ]);
+                
+                const regData = await regRes.json();
+                const bargainData = await bargainRes.json();
+                
+                if (regData.code !== 200) throw new Error(regData.message);
+
+                let registrations = regData.data || [];
+                
+                // 获取收到的还价信息，按账号ID分组
+                const receivedBargains = bargainData.code === 200 ? bargainData.data || [] : [];
+                const bargainMap = {};
+                receivedBargains.forEach(b => {
+                    if (!bargainMap[b.accountId]) {
+                        bargainMap[b.accountId] = [];
+                    }
+                    bargainMap[b.accountId].push(b);
+                });
+
+                if (regFilter === 'pending') registrations = registrations.filter(r => r.status === 'PENDING');
+                if (regFilter === 'approved') registrations = registrations.filter(r => r.status === 'APPROVED');
+                if (regFilter === 'rejected') registrations = registrations.filter(r => r.status === 'REJECTED');
+
+                if (registrations.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-file-upload"></i><p>暂无登记记录</p></div>';
+                    return;
+                }
+
+                container.innerHTML = registrations.map(r => renderRegItem(r, bargainMap[r.accountId] || [])).join('');
+            } catch (e) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>加载失败：${e.message}</p></div>`;
+            }
+        }
+
+        function renderRegItem(r, bargains = []) {
+            const statusText = {
+                'PENDING': '待审批',
+                'APPROVED': '已通过',
+                'REJECTED': '已驳回',
+                'CANCELLED': '已取消'
+            }[r.status] || r.status;
+
+            const statusClass = r.status === 'PENDING' ? 'pending' : 
+                              r.status === 'REJECTED' || r.status === 'CANCELLED' ? 'cancelled' : 'completed';
+
+            const canDelete = ['APPROVED', 'CANCELLED', 'REJECTED'].includes(r.status);
+            
+            // 过滤出待处理的还价
+            const pendingBargains = bargains.filter(b => b.status === 'PENDING' || b.status === 'COUNTERED');
+            
+            const bargainHtml = pendingBargains.length > 0 ? `
+                <div style="margin-top:8px;padding:8px;background:rgba(180,77,255,0.1);border-radius:6px;">
+                    <div style="font-size:12px;color:var(--neon-pink);margin-bottom:4px;">收到还价 (${pendingBargains.length})</div>
+                    ${pendingBargains.map(b => `
+                        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">
+                            ¥${(b.buyerPrice || 0).toLocaleString()} 
+                            ${b.status === 'COUNTERED' ? `(已还价: ¥${(b.sellerPrice || 0).toLocaleString()})` : ''}
+                            <button class="btn-sm btn-outline" style="margin-left:8px;padding:2px 8px;font-size:11px;" onclick="handleBargainAction(${b.id}, '${b.status}')">
+                                ${b.status === 'PENDING' ? '处理' : '查看'}
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : '';
+
+            return `
+                <div class="order-item" onclick="showMyRegistrationDetail(${r.id})">
+                    <div class="order-info">
+                        <div class="order-title">${escapeHtml(r.gameName)}</div>
+                        <div class="order-meta">等级：${escapeHtml(r.accountLevel)} | ¥${(r.price || 0).toLocaleString()}</div>
+                        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">${escapeHtml(r.description || '')}</div>
+                        ${bargainHtml}
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <span class="order-status ${statusClass}">${statusText}</span>
+                        ${r.status === 'PENDING' ? `<button class="btn-sm btn-danger" onclick="event.stopPropagation();cancelRegistration(${r.id})">取消登记</button>` : ''}
+                        ${canDelete ? `<button class="btn-sm btn-outline" onclick="event.stopPropagation();deleteRegistration(${r.id})">删除</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleBargainAction(bargainId, status) {
+            if (status === 'PENDING') {
+                // 卖家视角：收到买家还价，选择接受或还价
+                if (confirm('是否接受买家的还价？\n\n点击“确定”接受还价\n点击“取消”进行还价')) {
+                    acceptBargain(bargainId);
+                } else {
+                    const price = prompt('请输入你的还价金额（必须在原价 80%-100% 区间，最多一位小数）：');
+                    if (price && !isNaN(parseFloat(price))) {
+                        counterBargain(bargainId, parseFloat(price));
+                    }
+                }
+            } else {
+                // 查看详情
+                showToast('还价详情：状态-' + status, 'info');
+            }
+        }
+
+        async function acceptSellerBargain(bargainId) {
+            try {
+                const res = await fetch('/api/bargain/buyerAccept/' + bargainId, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code === 200) {
+                    showToast('已接受还价', 'success');
+                    loadMyBargains();
+                } else {
+                    showToast(d.message || '操作失败', 'error');
+                }
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function counterSellerBargain(bargainId, price) {
+            try {
+                const res = await fetch('/api/bargain/counter/' + bargainId, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ price: price })
+                });
+                const d = await res.json();
+                if (d.code === 200) {
+                    showToast('已还价', 'success');
+                    loadMyRegistrations();
+                } else {
+                    showToast(d.message || '操作失败', 'error');
+                }
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function cancelRegistration(id) {
+            if (!confirm('确定要取消此登记申请吗？')) return;
+
+            try {
+                const res = await fetch('/api/registration/cancel/' + id, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('登记已取消', 'success');
+                loadMyRegistrations();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function deleteRegistration(id) {
+            if (!confirm('确定要删除此登记记录吗？删除后无法恢复。')) return;
+
+            try {
+                const res = await fetch('/api/registration/delete/' + id, {
+                    method: 'DELETE',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('删除成功', 'success');
+                loadMyRegistrations();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function loadMyBargains() {
+            const container = document.getElementById('myBargainList');
+            container.innerHTML = '<div style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin" style="font-size:32px;"></i></div>';
+
+            try {
+                const res = await fetch('/api/bargain/myBargains', { credentials: 'include' });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                const bargains = d.data || [];
+
+                if (bargains.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-comments"></i><p>暂无还价消息</p></div>';
+                    return;
+                }
+
+                container.innerHTML = bargains.map(renderBargainItem).join('');
+            } catch (e) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>加载失败：${e.message}</p></div>`;
+            }
+        }
+
+        function renderBargainItem(b) {
+            const statusText = {
+                'PENDING': '待回复',
+                'COUNTERED': '卖家已还价',
+                'ACCEPTED': '已接受',
+                'REJECTED': '已拒绝',
+                'COMPLETED': '已成交'
+            }[b.status] || b.status;
+
+            const statusClass = b.status === 'PENDING' ? 'pending' : 
+                              b.status === 'REJECTED' || b.status === 'COMPLETED' ? 'cancelled' : 'completed';
+
+            // 确定显示的价格（优先使用卖家还价，否则使用买家出价）
+            const displayPrice = b.sellerPrice || b.buyerPrice;
+
+            return `
+                <div class="order-item">
+                    <div class="order-info">
+                        <div class="order-title">${escapeHtml(b.gameName || '未知商品')}</div>
+                        <div class="order-meta">
+                            买家出价：¥${(b.buyerPrice || 0).toLocaleString()}
+                            ${b.sellerPrice ? `→ 卖家还价：¥${b.sellerPrice.toLocaleString()}` : ''}
+                        </div>
+                        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">状态：${statusText}</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <span class="order-status ${statusClass}">${statusText}</span>
+                        ${b.status === 'PENDING' && b.sellerPrice ? `<button class="btn-sm btn-primary" onclick="acceptSellerBargain(${b.id})">接受</button>` : ''}
+                        ${b.status === 'PENDING' && !b.sellerPrice ? `<button class="btn-sm btn-outline" onclick="counterBargain(${b.id})">修改</button>` : ''}
+                        ${b.status === 'ACCEPTED' ? `<button class="btn-sm btn-primary" onclick="buyWithBargain(${b.id})">立即购买</button>` : ''}
+                        <button class="btn-sm btn-danger" onclick="deleteBargain(${b.id})">删除</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function acceptBargain(id) {
+            try {
+                const res = await fetch('/api/bargain/accept/' + id, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('已接受还价', 'success');
+                loadMyBargains();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function buyWithBargain(bargainId) {
+            try {
+                const res = await fetch('/api/order/createWithBargain', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ bargainId: bargainId })
+                });
+                const d = await res.json();
+                if (d.code === 200) {
+                    showToast('下单成功！订单号：' + d.data.orderNo, 'success');
+                    loadMyBargains();
+                    navigateTo('orders');
+                } else {
+                    showToast(d.message || '下单失败', 'error');
+                }
+            } catch (e) {
+                showToast('下单失败：' + e.message, 'error');
+            }
+        }
+
+        async function counterBargain(id) {
+            const price = prompt('请输入你的还价金额：');
+            if (!price || isNaN(parseFloat(price))) {
+                showToast('请输入有效的金额', 'warning');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/bargain/counter/' + id, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ price: parseFloat(price) })
+                });
+                const d = await res.json();
+                if (d.code !== 200) throw new Error(d.message);
+
+                showToast('还价已发送', 'success');
+                loadMyBargains();
+            } catch (e) {
+                showToast('操作失败：' + e.message, 'error');
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await fetch('/api/user/logout', { method: 'POST', credentials: 'include' });
+            } catch (e) {}
+            localStorage.removeItem('jwt_token');
+            localStorage.removeItem('user_info');
+            window.location.href = '/';
+        }
+
+        function showToast(msg, type) {
+            const toast = document.getElementById('toast');
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-circle' : 'times-circle'}"></i>${msg}`;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        document.getElementById('buyBtn').addEventListener('click', async () => {
+            if (!selectedAccount) {
+                showToast('请先选择账号', 'warning');
+                return;
+            }
+            
+            try {
+                const res = await fetch('/api/order/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ accountId: selectedAccount.id })
+                });
+                const d = await res.json();
+                if (d.code === 200) {
+                    showToast('下单成功！订单号：' + d.data.orderNo, 'success');
+                    closeDetailModal();
+                    navigateTo('orders');
+                } else {
+                    showToast(d.message || '下单失败', 'error');
+                }
+            } catch (e) {
+                showToast('下单失败：' + e.message, 'error');
+            }
+        });
+
+        document.getElementById('bargainBtn').addEventListener('click', openBargainModal);
+
+        document.addEventListener('click', (e) => {
+            if (!document.getElementById('userMenuOverlay').contains(e.target) &&
+                !document.querySelector('.user-info').contains(e.target)) {
+                closeUserMenu();
+            }
+        });
+
+        async function initPage() {
+            try {
+                const res = await fetch('/api/user/info', { credentials: 'include' });
+                const d = await res.json();
+                if (d.code === 200 && d.data) {
+                    currentUser = d.data;
+                    document.getElementById('userName').textContent = d.data.username;
+                    // 显示头像
+                    const avatarElement = document.getElementById('userAvatar');
+                    if (d.data.avatar) {
+                        avatarElement.innerHTML = '';
+                        const img = document.createElement('img');
+                        img.src = d.data.avatar;
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.borderRadius = '50%';
+                        avatarElement.appendChild(img);
+                    } else {
+                        // 使用文字头像
+                        avatarElement.textContent = d.data.username.charAt(0).toUpperCase();
+                    }
+                    navigateTo('home');
+                } else {
+                    window.location.href = '/';
+                }
+            } catch (e) {
+                window.location.href = '/';
+            }
+        }
+
+        initPage();
+    </script>
+</body>
+</html>
